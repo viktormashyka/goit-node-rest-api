@@ -15,4 +15,4 @@ export const updateContactSchema = Joi.object({
     tlds: { allow: ["com", "net", "gmail"] },
   }),
   phone: Joi.string().min(10).max(13),
-}).or("name", "email", "phone");
+});
