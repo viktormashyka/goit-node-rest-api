@@ -1,6 +1,6 @@
 import { isValidObjectId } from "mongoose";
 
-import { HttpError } from "../helpers/HttpError";
+import { HttpError } from "../helpers/HttpError.js";
 
 export const isValidId = (req, res, next) => {
   const { id } = req.param;
