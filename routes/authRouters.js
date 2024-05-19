@@ -1,7 +1,5 @@
 import express from "express";
-
 import authControllers from "../controllers/authControllers.js";
-
 import { isEmptyBody } from "../middlewares/isEmptyBody.js";
 import { authenticate } from "../middlewares/authenticate.js";
 import { validateBody } from "../decorators/validateBody.js";
@@ -30,7 +28,7 @@ authRouter.post(
 
 authRouter.get("/current", authenticate, authControllers.getCurrent);
 
-authRouter.post("/logout", authenticate, authControllers.getCurrent);
+authRouter.post("/logout", authenticate, authControllers.logout);
 
 authRouter.patch(
   "/",

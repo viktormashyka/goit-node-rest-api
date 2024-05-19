@@ -3,6 +3,7 @@ import contactsControllers from "../controllers/contactsControllers.js";
 import { isEmptyBody } from "../middlewares/isEmptyBody.js";
 import { validateBody } from "../decorators/validateBody.js";
 import { isValidId } from "../middlewares/isValidId.js";
+import { authenticate } from "../middlewares/authenticate.js";
 
 import {
   createContactSchema,
@@ -12,17 +13,19 @@ import {
 
 const contactsRouter = express.Router();
 
-contactsRouter.get("/", contactsControllers.getAllContacts);
+contactsRouter.use(authenticate);
 
-contactsRouter.get("/:id", isValidId, contactsControllers.getOneContact);
+contactsRouter.get("/", contactsControllers.getAll);
 
-contactsRouter.delete("/:id", isValidId, contactsControllers.deleteContact);
+contactsRouter.get("/:id", isValidId, contactsControllers.getById);
+
+contactsRouter.delete("/:id", isValidId, contactsControllers.deleteById);
 
 contactsRouter.post(
   "/",
   isEmptyBody,
   validateBody(createContactSchema),
-  contactsControllers.createContact
+  contactsControllers.add
 );
 
 contactsRouter.put(
@@ -30,7 +33,7 @@ contactsRouter.put(
   isValidId,
   isEmptyBody,
   validateBody(updateContactSchema),
-  contactsControllers.updateContact
+  contactsControllers.updateById
 );
 
 contactsRouter.patch(
@@ -38,7 +41,7 @@ contactsRouter.patch(
   isValidId,
   isEmptyBody,
   validateBody(updateStatusSchema),
-  contactsControllers.updateContact
+  contactsControllers.getById
 );
 
 export default contactsRouter;

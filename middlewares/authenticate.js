@@ -23,6 +23,9 @@ export const authenticate = async (req, res, next) => {
     if (!user.token) {
       return next(HttpError(401, "User logout"));
     }
+
+    req.user = user;
+    next();
   } catch (error) {
     next(HttpError(401, error.message));
   }
