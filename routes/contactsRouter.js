@@ -41,7 +41,7 @@ contactsRouter.patch(
   isValidId,
   isEmptyBody,
   validateBody(updateStatusSchema),
-  contactsControllers.getById
+  contactsControllers.updateById
 );
 
 export default contactsRouter;

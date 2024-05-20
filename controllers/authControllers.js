@@ -28,7 +28,7 @@ const login = async (req, res) => {
   if (!user) {
     throw HttpError(401, "Email or password is wrong");
   }
-  const comparePassword = compareHash(password, user.password);
+  const comparePassword = await compareHash(password, user.password);
 
   if (!comparePassword) {
     throw HttpError(401, "Email or password is wrong");
@@ -59,21 +59,14 @@ const logout = async (req, res) => {
   const { _id } = req.user;
   await authServices.updateUser({ _id }, { token: "" });
 
-  res.json({ message: "Logout success" });
+  res.status(204).json({ message: "No Content" });
 };
 
 const subscribe = async (req, res) => {
   const { _id, email } = req.user;
   const { subscription } = req.body;
 
-  await authServices.updateUser(
-    { _id },
-    {
-      user: {
-        subscription,
-      },
-    }
-  );
+  await authServices.updateUser({ _id }, { subscription });
 
   res.json({ email, subscription });
 };
