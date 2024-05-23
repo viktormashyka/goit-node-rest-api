@@ -2,6 +2,7 @@ import express from "express";
 import authControllers from "../controllers/authControllers.js";
 import { isEmptyBody } from "../middlewares/isEmptyBody.js";
 import { authenticate } from "../middlewares/authenticate.js";
+import { upload } from "../middlewares/upload.js";
 import { validateBody } from "../decorators/validateBody.js";
 
 import {
@@ -36,6 +37,14 @@ authRouter.patch(
   isEmptyBody,
   validateBody(userSubscriptionSchema),
   authControllers.subscribe
+);
+
+authRouter.patch(
+  "/avatars",
+  authenticate,
+  upload.single("avatarURL"),
+  isEmptyBody,
+  authControllers.addAvatar
 );
 
 export default authRouter;
