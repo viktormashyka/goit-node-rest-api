@@ -83,6 +83,10 @@ const subscribe = async (req, res) => {
 const addAvatar = async (req, res) => {
   const { _id } = req.user;
 
+  if (!req.file) {
+    throw Error("File not added. Please add file with avatar.");
+  }
+
   const { path: oldPath, filename } = req.file;
   const newPath = path.join(avatarPath, filename);
   await fs.rename(oldPath, newPath);

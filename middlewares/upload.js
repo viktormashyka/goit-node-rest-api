@@ -13,14 +13,15 @@ const storage = multer.diskStorage({
     const filename = `${uniquePrefix}_${file.originalname}`;
     callback(null, filename);
 
-    Jimp.read(filename, (err, avatar) => {
-      if (err) throw err;
-      avatar
-        .resize(256, 256) // resize
-        .quality(60) // set JPEG quality
-        .greyscale() // set greyscale
-        .write(filename); // save
-    });
+    // FIXME: Add Jimp after testing that file added correctly.
+    // Jimp.read(filename, (err, avatar) => {
+    //   if (err) throw err;
+    //   avatar
+    //     .resize(256, 256) // resize
+    //     .quality(60) // set JPEG quality
+    //     .greyscale() // set greyscale
+    //     .write(filename); // save
+    // });
   },
 });
 

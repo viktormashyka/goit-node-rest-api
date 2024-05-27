@@ -29,15 +29,14 @@ describe("test /api/users/login", () => {
       password: "123456",
     };
 
-    request(app).post("/api/users/register").send(userData);
+    await request(app).post("/api/users/register").send(userData);
 
-    const { statusCode, body } = request(app)
+    const { statusCode, _body } = await request(app)
       .post("/api/users/login")
       .send(userData);
 
     expect(statusCode).toBe(200);
-    expect(body.email).toBe(userData.email);
-    expect(body.password).toBe(userData.password);
+    expect(_body.user.email).toBe(userData.email);
 
     const user = await findUser({ email: userData.email });
     expect(user).not.toBeNull();
