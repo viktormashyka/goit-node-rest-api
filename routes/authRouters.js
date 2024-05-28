@@ -53,7 +53,6 @@ authRouter.patch(
   "/avatars",
   authenticate,
   upload.single("avatarURL"),
-  isEmptyBody,
   authControllers.addAvatar
 );
 
