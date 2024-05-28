@@ -1,6 +1,7 @@
 import fs from "fs/promises";
 import path from "path";
 import gravatar from "gravatar";
+import Jimp from "jimp";
 import * as authServices from "../services/authServices.js";
 import { HttpError } from "../helpers/HttpError.js";
 import { ctrlWrapper } from "../decorators/ctrlWrapper.js";
@@ -89,13 +90,23 @@ const addAvatar = async (req, res) => {
 
   const { path: oldPath, filename } = req.file;
   const newPath = path.join(avatarPath, filename);
+
+  Jimp.read(oldPath, (err, avatar) => {
+    if (err) throw err;
+    avatar
+      .resize(256, 256) // resize
+      .quality(60) // set JPEG quality
+      .greyscale() // set greyscale
+      .write(oldPath); // save
+  });
+
   await fs.rename(oldPath, newPath);
 
-  const avatar = path.join("avatars", filename);
+  const avatarURL = path.join("avatars", filename);
 
-  await authServices.updateUser({ _id }, { avatarURL: avatar });
+  await authServices.updateUser({ _id }, { avatarURL });
 
-  res.status(200).json({ avatarURL: avatar });
+  res.status(200).json({ avatarURL });
 };
 
 export default {
